@@ -1,0 +1,11 @@
+*.pyc
+project.lock.json
+bin/
+obj/
+.vs/
+node_modules/
+kubeconfig*
+build/
+.classpath
+.project
+.settings
