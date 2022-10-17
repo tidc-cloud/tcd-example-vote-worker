@@ -1,0 +1,44 @@
+## - Pipeline name
+name: ci-build-pipeline
+
+## - Condition for running workflows
+# Inspiring from
+# - Gitlab-CI rules(https://docs.gitlab.com/ee/ci/yaml/#rules)
+# - GitHub Action on (https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#on)
+# Condition valid when at lease one of these valid
+when:
+  push:
+    - type: tag
+      matcher: semver
+    - type: tag
+      matcher: glob
+      value: test-*
+    - type: branch
+      matcher: glob
+      value: test/*
+
+
+## - Pipeline tasks
+##  https://argoproj.github.io/argo-workflows/fields/#dagtask
+tasks:
+  - name: checkout
+    templateRef:
+      name: git
+      template: checkout
+
+  - name: build-image
+    depends: checkout
+    templateRef:
+      name: container
+      template: build
+    arguments:
+      artifacts:
+        - name: src
+          from: "{{tasks.checkout.outputs.artifacts.src}}"
+      parameters:
+        - name: registry
+          value: tcr.tks.trueidc.com/sandbox-private
+
+## - Array of reusable templates
+# https://argoproj.github.io/argo-workflows/fields/#template
+templates: {}
