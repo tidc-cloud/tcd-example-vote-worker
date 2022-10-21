@@ -38,6 +38,8 @@ tasks:
       parameters:
         - name: registry
           value: tcr.tks.trueidc.com/sandbox-private
+        - name: imageName
+          value: worker
 
 ## - Array of reusable templates
 # https://argoproj.github.io/argo-workflows/fields/#template
