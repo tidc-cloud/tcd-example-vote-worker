@@ -54,7 +54,7 @@ namespace Worker
                         if (!pgsql.State.Equals(System.Data.ConnectionState.Open))
                         {
                             Console.WriteLine("Reconnecting DB");
-                            pgsql = OpenDbConnection("Server=" + dbHost +";Username=postgres;Password=postgres;");
+                            pgsql = OpenDbConnection("Server=" + dbHost +";Username=" + dbUsername +";Password=" + dbPassword + ";");
                         }
                         else
                         { // Normal +1 vote requested
