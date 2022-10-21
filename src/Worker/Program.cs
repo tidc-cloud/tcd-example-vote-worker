@@ -20,8 +20,11 @@ namespace Worker
                 // System variables
                 string redisHost = Environment.GetEnvironmentVariable("REDIS_HOST");
                 string dbHost = Environment.GetEnvironmentVariable("DB_HOST");
+                string dbUsername = Environment.GetEnvironmentVariable("DB_USERNAME");
+                string dbPassword = Environment.GetEnvironmentVariable("DB_PASSWORD");
 
-                var pgsql = OpenDbConnection("Server=" + dbHost +";Username=postgres;Password=postgres;");
+
+                var pgsql = OpenDbConnection("Server=" + dbHost +";Username=" + dbUsername +";Password=" + dbPassword + ";");
                 var redisConn = OpenRedisConnection(redisHost);
                 var redis = redisConn.GetDatabase();
 
