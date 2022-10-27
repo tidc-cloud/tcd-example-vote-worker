@@ -82,18 +82,20 @@ namespace Worker
             {
                 try
                 {
+                    Console.WriteLine("Connecting {0}", connectionString);
                     connection = new NpgsqlConnection(connectionString);
                     connection.Open();
                     break;
                 }
-                catch (SocketException)
+                catch (SocketException e)
                 {
-                    Console.Error.WriteLine("Waiting for db");
+
+                    Console.Error.WriteLine("Waiting for db. {0}", e);
                     Thread.Sleep(1000);
                 }
-                catch (DbException)
+                catch (DbException e)
                 {
-                    Console.Error.WriteLine("Waiting for db");
+                    Console.Error.WriteLine("Waiting for db. {0}", e);
                     Thread.Sleep(1000);
                 }
             }
@@ -120,7 +122,7 @@ namespace Worker
             {
                 try
                 {
-                    Console.Error.WriteLine("Connecting to redis");
+                    Console.Error.WriteLine("Connecting to redis. {0}", hostname);
                     return ConnectionMultiplexer.Connect(hostname);
                 }
                 catch (RedisConnectionException)
