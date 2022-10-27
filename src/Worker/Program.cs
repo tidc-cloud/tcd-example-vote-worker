@@ -59,6 +59,7 @@ namespace Worker
                         else
                         { // Normal +1 vote requested
                             UpdateVote(pgsql, vote.voter_id, vote.vote);
+                            Console.WriteLine("Success.");
                         }
                     }
                     else
@@ -108,6 +109,7 @@ namespace Worker
                                         vote VARCHAR(255) NOT NULL
                                     )";
             command.ExecuteNonQuery();
+            Console.WriteLine("Table votes created.");
 
             return connection;
         }
@@ -149,11 +151,13 @@ namespace Worker
                 command.Parameters.AddWithValue("@id", voterId);
                 command.Parameters.AddWithValue("@vote", vote);
                 command.ExecuteNonQuery();
+                Console.WriteLine("Inserted.");
             }
             catch (DbException)
             {
                 command.CommandText = "UPDATE votes SET vote = @vote WHERE id = @id";
                 command.ExecuteNonQuery();
+                Console.WriteLine("Updated");
             }
             finally
             {
